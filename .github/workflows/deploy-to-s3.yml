@@ -20,7 +20,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-region: 'ap-southeast-2'
-          role-to-assume: 'arn:aws:iam::976193267898:role/full-access-for-mentsuke-simulator'
+        role-to-assume: 'arn:aws:iam::976193267898:role/full-access-for-mentsuke-simulator'
     
     - name: Build Static Files
       run: cd ./src; npm run buildtodeploy;
