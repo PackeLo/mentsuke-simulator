@@ -59,15 +59,6 @@ const helpTrigger = () => {
 </script>
 
 <template>
-  <Head>
-    <title>中綴じ製本 面付けシミュレーター</title>
-    <meta charset="UTF-8">
-    <meta name="description" content="ページ数を入力するだけで簡単に、中綴じ製本の面付けをシミュレーションします。製本作業の目安にご利用ください。">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1620906024044943"
-     crossorigin="anonymous"></script>
-    <meta name="google-site-verification" content="6r4SjTQqEqm9lt2fJwNnyQ_t51dTiTRtQ-TjpZK6JXA" />
-  </Head>
-
   <!-- 画面 -->
   <div class="print:hidden min-h-screen flex flex-col justify-between">
     <div class="pb-4 border-b border-neutral-400">
