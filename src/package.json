@@ -1,0 +1,24 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "tailwind:watch": "npx tailwindcss -i assets/tailwind/input.css -o assets/tailwind/output.css --watch",
+    "tailwind": "npx tailwindcss -i assets/tailwind/input.css -o assets/tailwind/output.css",
+    "buildtodeploy": "npm run tailwind; npm run build"
+  },
+  "dependencies": {
+    "nuxt": "^3.15.1",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "tailwindcss": "^3.4.17"
+  }
+}
