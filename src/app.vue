@@ -53,82 +53,101 @@ const printTrigger = () => {
 
 const helpTrigger = () => {
   window.alert(
-    "結果を印刷するヘルプ：\n\n面付け結果を見本小冊子として印刷できます。\n※印刷する際は両面印刷をご利用ください。"
+    "\n結果を印刷するボタンの説明：\n面付け結果を見本小冊子として印刷できます。\n※印刷する際は両面印刷をご利用ください。"
   );
 }
 </script>
 
 <template>
+  <Head>
+    <title>中綴じ製本 面付けシミュレーター</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="ページ数を入力するだけで簡単に、中綴じ製本の面付けをシミュレーションします。製本作業の目安にご利用ください。">
+  </Head>
+
   <!-- 画面 -->
-  <div class="print:hidden p-6">
-    <h1 class="text-2xl font-bold">中綴じ 面付けシミュレーター</h1>
-
-    <fieldset class="mt-5">
-      <legend>
-        ページ数を入力してください。
-      </legend>
-
-      <div class="my-2">
-        <input type="number" name="page_num" v-model="pageNum" min="4">
-        <div class="text-[red]">{{ errorMsg }}</div>
-      </div>
-
-      <label class="mr-5">
-        <input name="has_cover" type="checkbox" v-model="hasCover">
-        表紙あり
-      </label>
-      <label>
-        綴じ方
-      <select name="binding" v-model="binding">
-        <option value="left">左綴じ</option>
-        <option value="right">右綴じ</option>
-      </select>
-      </label>
-    </fieldset>
-
-    <div class="flex gap-x-3 items-center mt-8">
-      <h3 class="text-xl font-bold">面付け結果</h3>
-      <button class="border border-black rounded-sm p-1 bg-blue-600 text-white hover:opacity-70" @click="printTrigger">結果を印刷する</button>
-      <button class="border border-black rounded-full px-1" @click="helpTrigger()">？</button>
+  <div class="print:hidden min-h-screen flex flex-col justify-between">
+    <div class="pb-4 border-b border-neutral-400">
+      <h1 class="pt-6 px-6 text-2xl font-bold">中綴じ 面付けシミュレーター</h1>
+      <p class="px-6">中綴じ製本するときの面付けをシミュレーションします。</p>
+      <p class="px-6">製本作業の目安にご利用ください。</p>
     </div>
-    <div class="flex flex-wrap gap-3 mt-3">
-      <div v-if="hasCover && mentsukeResult.length" class="bg-neutral-200">
-          <div>
-            表
-            <div class="flex">
-              <div class="p-4 border border-black bg-white w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.front.left }}</div>
-              <div class="p-4 border border-black bg-white w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.front.right }}</div>
-            </div>
-          </div>
 
-          <div>
-            裏
-            <div class="flex">
-              <div class="p-4 border border-black bg-white whitespace-pre-line w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.back.left }}</div>
-              <div class="p-4 border border-black bg-white whitespace-pre-line w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.back.right }}</div>
-            </div>
-          </div>
+    <div class="p-6 mb-auto">
+      <fieldset>
+        <legend>
+          ページ数を入力してください。
+        </legend>
+
+        <div class="my-2">
+          <input type="number" name="page_num" v-model="pageNum" min="4">
+          <div class="text-[red]">{{ errorMsg }}</div>
         </div>
 
-      <template v-for="resultValue in mentsukeResult">    
-        <div class="bg-neutral-200">
-          <div>
-            表
-            <div class="flex">
-              <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.front.left }}</div>
-              <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.front.right }}</div>
+        <label class="mr-5">
+          <input name="has_cover" type="checkbox" v-model="hasCover">
+          表紙あり
+        </label>
+        <label>
+          綴じ方
+        <select name="binding" v-model="binding">
+          <option value="left">左綴じ</option>
+          <option value="right">右綴じ</option>
+        </select>
+        </label>
+      </fieldset>
+
+      <div class="flex gap-x-3 items-center mt-8">
+        <h3 class="text-xl font-bold">面付け結果</h3>
+        <button class="border border-black rounded-sm p-1 bg-blue-600 text-white hover:opacity-70" @click="printTrigger">結果を印刷する</button>
+        <button class="border border-black rounded-full px-1" @click="helpTrigger()">？</button>
+      </div>
+      <div class="flex flex-wrap gap-3 mt-3">
+        <div v-if="hasCover && mentsukeResult.length" class="bg-neutral-200 p-2">
+            <div>
+              表
+              <div class="flex">
+                <div class="p-4 border border-black bg-white w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.front.left }}</div>
+                <div class="p-4 border border-black bg-white w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.front.right }}</div>
+              </div>
+            </div>
+
+            <div>
+              裏
+              <div class="flex">
+                <div class="p-4 border border-black bg-white whitespace-pre-line w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.back.left }}</div>
+                <div class="p-4 border border-black bg-white whitespace-pre-line w-[5rem] h-[7rem] text-sm flex justify-center items-center">{{ coverMentsuke.back.right }}</div>
+              </div>
             </div>
           </div>
 
-          <div>
-            裏
-            <div class="flex">
-              <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.back.left }}</div>
-              <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.back.right }}</div>
+        <template v-for="resultValue in mentsukeResult">    
+          <div class="bg-neutral-200 p-2">
+            <div>
+              表
+              <div class="flex">
+                <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.front.left }}</div>
+                <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.front.right }}</div>
+              </div>
+            </div>
+
+            <div>
+              裏
+              <div class="flex">
+                <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.back.left }}</div>
+                <div class="p-4 border-black bg-white border w-[5rem] h-[7rem] flex justify-center items-center">{{ resultValue.back.right }}</div>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
+    </div>
+
+    
+    <div class="border-t border-neutral-400 pb-2 px-6">
+      <p>Last modified 2025/01/13 by <a href="https://github.com/PackeLo" class="text-blue-500 underline" target="_blank">PackLo</a></p>
+      <p>GitHub: <a href="https://github.com/PackeLo/mentsuke-simulator" class="text-blue-500 underline" target="_blank">https://github.com/PackeLo/mentsuke-simulator</a></p>
+      <p>X(Twitter): <a href="https://x.com/have_to_lock" class="text-blue-500 underline" target="_blank">https://x.com/have_to_lock</a> (何かお問い合わせがあればこちらまで)</p>
     </div>
   </div>
 
@@ -161,5 +180,5 @@ const helpTrigger = () => {
 </template>
 
 <style>
-@page { size: landscape }
+  @page { size: landscape }
 </style>
