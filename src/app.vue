@@ -1,61 +1,61 @@
 <script lang="ts" setup>
-const pageNum = ref(4);
-const errorMsg = ref("");
-const hasCover = ref(true);
-const binding:Ref<"left" | "right"> = ref("left");
+  const pageNum = ref(4);
+  const errorMsg = ref("");
+  const hasCover = ref(true);
+  const binding:Ref<"left" | "right"> = ref("left");
 
-const coverMentsuke = computed(() => {
-  return {
-    front: {
-      left: binding.value === "left" ? "裏表紙" : "表紙",
-      right: binding.value === "left" ? "表紙" : "裏表紙"
-    },
-    back: {
-      left: binding.value === "left" ? "表紙\n(裏)" : "裏表紙\n(裏)",
-      right: binding.value === "left" ? "裏表紙\n(裏)" : "表紙\n(裏)",
+  const coverMentsuke = computed(() => {
+    return {
+      front: {
+        left: binding.value === "left" ? "裏表紙" : "表紙",
+        right: binding.value === "left" ? "表紙" : "裏表紙"
+      },
+      back: {
+        left: binding.value === "left" ? "表紙\n(裏)" : "裏表紙\n(裏)",
+        right: binding.value === "left" ? "裏表紙\n(裏)" : "表紙\n(裏)",
+      }
+    };
+  })
+
+  const mentsukeResult = computed(() => {
+    errorMsg.value = "";
+    if(pageNum.value % 4 !== 0) {
+      errorMsg.value = "ページ数は 4 の倍数である必要があります"
+      return [];
     }
-  };
-})
 
-const mentsukeResult = computed(() => {
-  errorMsg.value = "";
-  if(pageNum.value % 4 !== 0) {
-    errorMsg.value = "ページ数は 4 の倍数である必要があります"
-    return [];
+    const baseArr = new Array(pageNum.value / 2);
+    const array = baseArr.fill(null)
+      .map((_,key) => {
+        const front1 = pageNum.value - key * 2;
+        const front2 = key * 2 + 1;
+        const back1 = key * 2 + 2;
+        const back2 = pageNum.value - key * 2 - 1;
+
+        return {
+          front: {
+            left: binding.value === "left" ? front1 : front2,
+            right: binding.value === "left" ? front2 : front1
+          },
+          back: {
+            left: binding.value === "left" ? back1 : back2,
+            right: binding.value === "left" ? back2 : back1
+          }
+        };
+      });
+
+    return array.slice(0, array.length / 2);
+  });
+
+  const printTrigger = () => {
+    window.print();
   }
 
-  const baseArr = new Array(pageNum.value / 2);
-  const array = baseArr.fill(null)
-    .map((_,key) => {
-      const front1 = pageNum.value - key * 2;
-      const front2 = key * 2 + 1;
-      const back1 = key * 2 + 2;
-      const back2 = pageNum.value - key * 2 - 1;
-
-      return {
-        front: {
-          left: binding.value === "left" ? front1 : front2,
-          right: binding.value === "left" ? front2 : front1
-        },
-        back: {
-          left: binding.value === "left" ? back1 : back2,
-          right: binding.value === "left" ? back2 : back1
-        }
-      };
-    });
-
-  return array.slice(0, array.length / 2);
-});
-
-const printTrigger = () => {
-  window.print();
-}
-
-const helpTrigger = () => {
-  window.alert(
-    "\n結果を印刷するボタンの説明：\n面付け結果を見本小冊子として印刷できます。\n※印刷する際は両面印刷をご利用ください。"
-  );
-}
+  const helpTrigger = () => {
+    window.alert(
+      "\n結果を印刷するボタンの説明：\n面付け結果を見本小冊子として印刷できます。\n※印刷する際は両面印刷をご利用ください。"
+    );
+  }
 </script>
 
 <template>
@@ -139,9 +139,9 @@ const helpTrigger = () => {
 
     
     <div class="border-t border-neutral-400 pb-2 px-6">
-      <p>Last modified 2025/01/13 by <a href="https://github.com/PackeLo" class="text-blue-500 underline" target="_blank">PackLo</a></p>
+      <p>Last modified 2025/10/26 by <a href="https://github.com/PackeLo" class="text-blue-500 underline" target="_blank">PackeLo</a></p>
       <p>GitHub: <a href="https://github.com/PackeLo/mentsuke-simulator" class="text-blue-500 underline" target="_blank">https://github.com/PackeLo/mentsuke-simulator</a></p>
-      <p>X(Twitter): <a href="https://x.com/have_to_lock" class="text-blue-500 underline" target="_blank">https://x.com/have_to_lock</a> (何かお問い合わせがあればこちらまで)</p>
+      <p>X(Twitter): <a href="https://x.com/PackeLo25" class="text-blue-500 underline" target="_blank">https://x.com/PackeLo25</a> (何かお問い合わせがあればこちらまで)</p>
     </div>
   </div>
 
